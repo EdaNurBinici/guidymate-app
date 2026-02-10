@@ -1,48 +1,65 @@
-# 🚀 GuidyMate
+# GuidyMate
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)
 ![Node](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)
 
-**GuidyMate** is an AI-powered career planning assistant that provides personalized roadmaps, tracks goals, and supports development with productivity tools.
+AI-powered career planning assistant with personalized roadmaps, goal tracking, and productivity tools.
 
-> *A Full-Stack web application that helps users manage their career journey through a gamified experience.*
+> Full-Stack web application for managing career journey through gamified experience.
 
 ---
 
-## 📱 Preview
+## Preview
 
 <div align="center">
 
-### 🏠 Landing & Login
-<img src="./screenshots/landing.jpg" width="400" alt="Landing Page"> <img src="./screenshots/login.png" width="400" alt="Login">
+### Landing & Authentication
+<img src="./screenshots/landing.jpg" width="400" alt="Landing"> <img src="./screenshots/login.png" width="400" alt="Login">
 
-### 📊 Dashboard & Features
+### Dashboard
 <img src="./screenshots/profile.png" width="400" alt="Profile"> <img src="./screenshots/roadmap.png" width="400" alt="Roadmap">
 
-### ⏱️ Focus Timer
-<img src="./screenshots/focus_mode.jpg" width="600" alt="Focus Timer">
+### Features
+
+<details>
+<summary>Theme & Language Support</summary>
+<img src="./screenshots/features.gif" width="700" alt="Features">
+</details>
+
+<details>
+<summary>AI Career Coach</summary>
+<img src="./screenshots/ai_coach.gif" width="700" alt="AI Coach">
+</details>
+
+<details>
+<summary>Smart Notes</summary>
+<img src="./screenshots/notes.gif" width="700" alt="Notes">
+</details>
+
+<details>
+<summary>Focus Timer</summary>
+<img src="./screenshots/Adobe Express - focus_time.gif" width="700" alt="Timer">
+</details>
 
 </div>
 
-> 💡 **Video Demos:** AI Coach, Notes, and Timer demos are available in the [screenshots](./screenshots) folder.
+---
+
+## Key Features
+
+- AI Career Coach - 24/7 personalized guidance
+- Smart Roadmap - Level-based progression (1-10)
+- Focus Timer - Customizable Pomodoro
+- Multi-Theme - Light, Dark, Autumn modes
+- Secure Auth - Google OAuth 2.0
+- Multi-Language - Turkish and English
+- Smart Notes - Organize learning journey
 
 ---
 
-## 🎯 Key Features
-
-✅ **AI Career Coach** - 24/7 personalized career guidance  
-✅ **Smart Roadmap** - Level-based progression system (1-10)  
-✅ **Focus Timer** - Customizable Pomodoro with themes  
-✅ **Multi-Theme** - Light, Dark, and Autumn modes  
-✅ **Secure Auth** - Google OAuth 2.0 integration  
-✅ **Multi-Language** - Turkish and English support  
-✅ **Smart Notes** - Organize your learning journey
-
----
-
-## 🛠 Tech Stack
+## Tech Stack
 
 **Frontend:**
 - React 18 + Vite
@@ -66,7 +83,7 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ```bash
 # 1. Clone the repository
@@ -89,7 +106,7 @@ For detailed setup instructions, see [SETUP.md](./SETUP.md)
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 **MVC-inspired modular structure:**
 
@@ -99,7 +116,7 @@ For detailed setup instructions, see [SETUP.md](./SETUP.md)
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 - [Quick Start Guide](./QUICK-START.md)
 - [Deployment Guide](./DEPLOYMENT.md)
@@ -109,13 +126,13 @@ For detailed setup instructions, see [SETUP.md](./SETUP.md)
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
 ---
 
-## 👤 Developer
+## Developer
 
 **Eda Nur Binici**
 
@@ -124,4 +141,4 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ---
 
-⭐ If you like this project, please give it a star!
+If you like this project, please give it a star!
