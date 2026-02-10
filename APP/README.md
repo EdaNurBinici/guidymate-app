@@ -82,7 +82,7 @@ npm install
 npm run dev
 ```
 
-For detailed setup instructions, see [SETUP.md](./SETUP.md)
+For detailed setup instructions, see [SETUP.md](./docs/SETUP.md)
 
 ---
 
@@ -98,10 +98,12 @@ For detailed setup instructions, see [SETUP.md](./SETUP.md)
 
 ## Documentation
 
-- [Quick Start Guide](./QUICK-START.md)
-- [Deployment Guide](./DEPLOYMENT.md)
-- [Features Overview](./FEATURES.md)
-- [Troubleshooting](./TROUBLESHOOTING.md)
+- [Quick Start Guide](./docs/QUICK-START.md)
+- [Deployment Guide](./docs/DEPLOYMENT.md)
+- [Features Overview](./docs/FEATURES.md)
+- [Troubleshooting](./docs/TROUBLESHOOTING.md)
+- [Language Support](./docs/LANGUAGE-SUPPORT-GUIDE.md)
+- [Translation Guide](./docs/TRANSLATION-COMPLETE-GUIDE.md)
 - [Contributing Guidelines](./CONTRIBUTING.md)
 
 ---
