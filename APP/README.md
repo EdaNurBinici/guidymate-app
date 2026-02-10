@@ -21,7 +21,7 @@ AI-powered career planning assistant with personalized roadmaps, goal tracking, 
 ### Dashboard
 <img src="./screenshots/profile.png" width="400" alt="Profile"> <img src="./screenshots/roadmap.png" width="400" alt="Roadmap">
 
-### [🌐 Live Demo - Try it yourself!](https://guidymate.onrender.com)
+### [🌐 Live Demo - Try it yourself!](https://guidymate.com.tr)
 
 </div>
 
