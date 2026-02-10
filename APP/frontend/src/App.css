@@ -335,7 +335,12 @@ input, select, textarea { width: 100%; padding: 12px 16px; border: 2px solid #e2
 
 /* Tam ekran modunda sadece saat görünsün - diğer her şeyi gizle */
 .focus-wrapper.fullscreen-mode > div[style*="position: absolute"]:first-child {
-  display: none;
+  display: flex !important; /* Buton container'ı göster */
+}
+
+/* Tam ekranda sadece tam ekran butonu görünsün, diğerleri gizli */
+.focus-wrapper.fullscreen-mode > div[style*="position: absolute"]:first-child > *:not(:last-child) {
+  display: none !important; /* Theme toggle ve arka plan butonunu gizle */
 }
 
 .focus-wrapper.fullscreen-mode .timer-inputs {
@@ -350,9 +355,9 @@ input, select, textarea { width: 100%; padding: 12px 16px; border: 2px solid #e2
   display: none !important;
 }
 
-/* Tam ekranda sadece timer display görünsün */
+/* Tam ekranda sadece timer display görünsün - biraz küçült */
 .focus-wrapper.fullscreen-mode .timer-display {
-  font-size: 10rem !important;
+  font-size: 8rem !important; /* 10rem'den 8rem'e düşürdüm */
   margin: 0 !important;
 }
 
