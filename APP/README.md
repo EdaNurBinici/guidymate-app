@@ -40,7 +40,7 @@ AI-powered career planning assistant with personalized roadmaps, goal tracking, 
 
 <details>
 <summary>Focus Timer</summary>
-<img src="./screenshots/Adobe Express - focus_time.gif" width="700" alt="Timer">
+<img src="./screenshots/focus_time.gif" width="700" alt="Timer">
 </details>
 
 </div>
