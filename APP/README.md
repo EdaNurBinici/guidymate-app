@@ -5,25 +5,59 @@
 ![Node](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)
 
-**GuidyMate**, yapay zeka destekli bir kariyer planlama asistanıdır. Kullanıcılara kişiselleştirilmiş yol haritaları sunar, hedeflerini takip eder ve üretkenlik araçlarıyla gelişimlerini destekler.
+**GuidyMate** is an AI-powered career planning assistant that provides personalized roadmaps, tracks goals, and supports development with productivity tools.
 
-> *Kullanıcıların kariyer yolculuğunu oyunlaştırılmış bir deneyimle yönetmesini sağlayan Full-Stack bir web uygulamasıdır.*
+> *A Full-Stack web application that helps users manage their career journey through a gamified experience.*
 
 ---
 
 ## 📱 Preview
 
+### Landing & Authentication
 ![Landing Page](./screenshots/landing.jpg)
-![Profile Page](./screenshots/profile.png)
+![Login Page](./screenshots/login.png)
+
+### Core Features
+![Profile Dashboard](./screenshots/profile.png)
+![Roadmap System](./screenshots/roadmap.png)
+![Focus Timer](./screenshots/focus_mode.jpg)
+
+### Feature Demos
+<details>
+<summary>🎨 Theme & Language Support</summary>
+
+![Features Demo](./screenshots/features.mp4)
+</details>
+
+<details>
+<summary>🤖 AI Career Coach</summary>
+
+![AI Coach Demo](./screenshots/ai_coach.mp4)
+</details>
+
+<details>
+<summary>📝 Smart Notes</summary>
+
+![Notes Demo](./screenshots/notes.mp4)
+</details>
+
+<details>
+<summary>⏱️ Focus Timer</summary>
+
+![Timer Demo](./screenshots/focus_time.mp4)
+</details>
 
 ---
 
-## 🎯 Project Goals
+## 🎯 Key Features
 
-- **AI Entegrasyonu:** Groq API kullanarak kişiye özel kariyer tavsiyeleri sunmak
-- **Full-Stack Mimari:** React, Node.js ve PostgreSQL ile modern ve ölçeklenebilir bir yapı kurmak
-- **Kullanıcı Deneyimi:** Oyunlaştırılmış seviye sistemi (Gamification) ile kullanıcıyı motive etmek
-- **Clean Code:** Modüler dosya yapısı ve temiz kod prensiplerine uygun geliştirme
+✅ **AI Career Coach** - 24/7 personalized career guidance  
+✅ **Smart Roadmap** - Level-based progression system (1-10)  
+✅ **Focus Timer** - Customizable Pomodoro with themes  
+✅ **Multi-Theme** - Light, Dark, and Autumn modes  
+✅ **Secure Auth** - Google OAuth 2.0 integration  
+✅ **Multi-Language** - Turkish and English support  
+✅ **Smart Notes** - Organize your learning journey
 
 ---
 
@@ -54,44 +88,33 @@
 ## 🚀 Getting Started
 
 ```bash
-# 1. Projeyi Klonlayın
+# 1. Clone the repository
 git clone https://github.com/EdaNurBinici/guidymate-app.git
 cd guidymate-app
 
-# 2. Backend Kurulumu
+# 2. Backend Setup
 cd web-app-api
 npm install
-# .env dosyasını oluşturup veritabanı bilgilerinizi girin
+# Create .env file with your database credentials
 npm start
 
-# 3. Frontend Kurulumu (Yeni Terminalde)
+# 3. Frontend Setup (New Terminal)
 cd frontend
 npm install
 npm run dev
 ```
 
-Detaylı kurulum için [SETUP.md](./SETUP.md) dosyasına bakın.
+For detailed setup instructions, see [SETUP.md](./SETUP.md)
 
 ---
 
 ## 🏗 Architecture
 
-Proje **MVC (Model-View-Controller)** desenine benzer modüler bir yapıda tasarlanmıştır:
+**MVC-inspired modular structure:**
 
-- **Frontend:** Bileşen tabanlı (Component-based) yapı. Her sayfa ve özellik (Roadmap, Notes, AI Coach) kendi modülü içindedir
-- **Backend:** RESTful API mimarisi. Servis katmanı, kontrolcüler ve rotalar ayrılmıştır
-- **Database:** İlişkisel veri tabanı tasarımı (Users, Profiles, Roadmaps tabloları)
-
----
-
-## 🌟 Key Features
-
-✅ **AI Career Coach:** 7/24 aktif kariyer danışmanı  
-✅ **Smart Roadmap:** Seviye bazlı (Level 1-10) ilerleme sistemi  
-✅ **Focus Timer:** Özelleştirilebilir Pomodoro sayacı ve temalar  
-✅ **Multi-Theme:** Light, Dark ve Autumn (Sonbahar) modları  
-✅ **Secure Auth:** Google ile tek tıkla giriş  
-✅ **Multi-Language:** Türkçe ve İngilizce dil desteği
+- **Frontend:** Component-based architecture with dedicated modules for Roadmap, Notes, and AI Coach
+- **Backend:** RESTful API with separated service layer, controllers, and routes
+- **Database:** Relational design (Users, Profiles, Roadmaps tables)
 
 ---
 
@@ -120,4 +143,4 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ---
 
-⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
+⭐ If you like this project, please give it a star!
