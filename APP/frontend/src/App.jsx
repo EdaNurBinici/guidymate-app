@@ -202,9 +202,11 @@ function App() {
   }, [timerActive, timeLeft, isBreak, breakTime, focusTime]);
 
   const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+    // Negatif değerleri engelle
+    const totalSeconds = Math.max(0, seconds);
+    const m = Math.floor(totalSeconds / 60);
+    const s = totalSeconds % 60;
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
   const handleTimerStart = () => setTimerActive(!timerActive);
