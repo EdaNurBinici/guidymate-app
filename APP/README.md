@@ -1,107 +1,107 @@
-# 🎯 AI-Powered Career Assistant
+# GuidyMate - AI-Powered Career Planning Assistant
 
 A modern, full-stack web application that helps users plan their career path with AI-powered personalized recommendations, goal tracking, and productivity tools. Built with React, Node.js, and PostgreSQL.
 
 [![React](https://img.shields.io/badge/React-18.x-blue.svg)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15.x-blue.svg)](https://www.postgresql.org/)
-[![License](https://img.shields.io/badge/License-Private-red.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## 🌟 Features
+## Features
 
-### 🤖 AI Career Coach
-- **Personalized Advice**: AI-powered career recommendations using Groq API
-- **Interactive Chat**: Real-time conversation with AI coach
-- **Session Management**: Save and resume chat sessions
-- **Context-Aware**: Recommendations based on your profile and goals
+### AI Career Coach
+- Personalized career recommendations using Groq API
+- Interactive real-time chat interface
+- Session management with conversation history
+- Context-aware advice based on user profile and goals
 
-### 📊 Smart Roadmap System
-- **AI-Generated Paths**: Customized learning roadmaps
-- **Progress Tracking**: Visual progress indicators
-- **Level System**: Gamified progression (Level 1-10)
-- **Adaptive Tasks**: Dynamic task generation based on progress
-- **Completion Tracking**: Mark tasks as done and level up
+### Smart Roadmap System
+- AI-generated personalized learning paths
+- Visual progress tracking with level indicators
+- Gamified progression system (Level 1-10)
+- Dynamic task generation based on user progress
+- Task completion tracking and level advancement
 
-### 📝 Advanced Note-Taking
-- **Rich Text Support**: Markdown-compatible notes
-- **Search & Filter**: Find notes quickly
-- **Organized Cards**: Visual note cards with timestamps
-- **CRUD Operations**: Create, read, update, delete notes
+### Advanced Note-Taking
+- Rich text support with Markdown compatibility
+- Search and filter functionality
+- Organized card-based interface
+- Full CRUD operations with timestamps
 
-### ⏱️ Focus Timer (Pomodoro)
-- **Customizable Intervals**: Set work and break times
-- **Multiple Themes**: 
+### Focus Timer (Pomodoro)
+- Customizable work and break intervals
+- Multiple theme options:
   - 5 gradient backgrounds
   - 4 image backgrounds (forest, mountain, library, space)
   - Custom color picker
-- **Fullscreen Mode**: Distraction-free focus
-- **Audio Notifications**: Sound alerts for breaks
-- **Persistent Settings**: Saves your preferences
+- Fullscreen mode for distraction-free focus
+- Audio notifications for session transitions
+- Persistent user preferences
 
-### 👤 Comprehensive Profile System
-- **Personal Info**: Age, city, education, work experience
-- **Goal Setting**: Define your career objectives
-- **Study Tracking**: Log daily study hours
-- **Profile Validation**: Input validation for data integrity
+### Comprehensive Profile System
+- Personal information management (age, city, education, work experience)
+- Career goal setting and tracking
+- Daily study hour logging
+- Input validation and data integrity checks
 
-### 🎨 Multi-Theme System
-- **Light Mode**: Clean, bright interface (default)
-- **Dark Mode**: Easy on the eyes
-- **Autumn Mode**: Warm, cozy colors
-- **Persistent Selection**: Theme saved across sessions
+### Multi-Theme System
+- Light Mode: Clean, bright interface (default)
+- Dark Mode: Reduced eye strain for extended use
+- Autumn Mode: Warm, seasonal color palette
+- Theme persistence across sessions
 
-### 🔐 Secure Authentication
-- **Email/Password**: Traditional registration and login
-- **Google OAuth**: One-click sign-in
-- **JWT Tokens**: Secure session management
-- **Password Hashing**: bcrypt encryption
-- **Auto-Logout**: Token expiration handling
+### Secure Authentication
+- Email/password registration and login
+- Google OAuth integration for one-click sign-in
+- JWT-based session management
+- bcrypt password encryption
+- Automatic token expiration handling
 
-## 🆕 Latest Updates (v2.0)
+## Latest Updates (v2.0)
 
 ### Code Quality Improvements
-- ✅ **Custom Modal System**: Replaced browser confirm/prompt with modern modals
-- ✅ **Advanced Error Handling**: Comprehensive API error management
-- ✅ **Loading States**: Visual feedback for all async operations
-- ✅ **Accessibility (a11y)**: ARIA labels, keyboard navigation, screen reader support
-- ✅ **Input Validation**: Min/max values, type checking, length limits
-- ✅ **Logger Service**: Production-ready logging (console.log disabled in production)
-- ✅ **CSS Optimization**: Reduced !important usage by 60%
-- ✅ **Code Organization**: Modular API utilities
+- Custom modal system replacing browser dialogs
+- Comprehensive API error handling
+- Loading states for all async operations
+- Accessibility features (ARIA labels, keyboard navigation, screen reader support)
+- Input validation with min/max values and type checking
+- Production-ready logging system
+- CSS optimization with reduced !important usage
+- Modular API utility organization
 
 ### User Experience Enhancements
-- ✅ **Better Error Messages**: User-friendly, actionable error notifications
-- ✅ **Improved Modals**: Smooth animations, ESC/Enter key support
-- ✅ **Enhanced Forms**: Real-time validation, better placeholders
-- ✅ **Responsive Design**: Optimized for mobile devices
-- ✅ **Theme Consistency**: All components support all themes
+- User-friendly, actionable error messages
+- Smooth modal animations with keyboard support
+- Real-time form validation
+- Mobile-optimized responsive design
+- Consistent theming across all components
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
-- **React 18** - Modern UI library with hooks
-- **Vite** - Lightning-fast build tool
-- **CSS3** - Custom styling with CSS variables
-- **React Markdown** - Markdown rendering for AI responses
-- **Google OAuth** - Social authentication
-- **Custom Hooks** - useWindowSize for responsive design
+- React 18 - Modern UI library with hooks
+- Vite - Fast build tool and dev server
+- CSS3 - Custom styling with CSS variables
+- React Markdown - Markdown rendering for AI responses
+- Google OAuth - Social authentication
+- Custom Hooks - Responsive design utilities
 
 ### Backend
-- **Node.js 18+** - JavaScript runtime
-- **Express.js** - Minimal web framework
-- **PostgreSQL 15** - Relational database
-- **JWT** - Stateless authentication
-- **Groq SDK** - AI integration (llama-3.3-70b-versatile)
-- **bcrypt** - Password hashing
-- **CORS** - Cross-origin resource sharing
+- Node.js 18+ - JavaScript runtime
+- Express.js - Web application framework
+- PostgreSQL 15 - Relational database
+- JWT - Stateless authentication
+- Groq SDK - AI integration (llama-3.3-70b-versatile)
+- bcrypt - Password hashing
+- CORS - Cross-origin resource sharing
 
 ### DevOps & Deployment
-- **Frontend**: Vercel / Netlify
-- **Backend**: Render.com
-- **Database**: Render PostgreSQL
-- **Version Control**: Git & GitHub
+- Frontend: Vercel / Netlify
+- Backend: Render.com
+- Database: Render PostgreSQL
+- Version Control: Git & GitHub
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 ```bash
@@ -113,8 +113,8 @@ Git
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/EdaNurBinici/ai-career-assistant.git
-cd ai-career-assistant
+git clone https://github.com/EdaNurBinici/guidymate-app.git
+cd guidymate-app
 ```
 
 ### 2. Backend Setup
@@ -127,7 +127,7 @@ npm install
 cp .env.example .env
 ```
 
-**Configure `.env`:**
+Configure `.env`:
 ```env
 PORT=5000
 DATABASE_URL=postgresql://user:password@localhost:5432/career_db
@@ -137,7 +137,7 @@ GOOGLE_CLIENT_ID=your_google_client_id_here
 NODE_ENV=development
 ```
 
-**Initialize Database:**
+Initialize Database:
 ```bash
 # Create database
 createdb career_db
@@ -149,7 +149,7 @@ psql -d career_db -f database/schema.sql
 node init-db.js
 ```
 
-**Start Backend:**
+Start Backend:
 ```bash
 npm start
 # Server runs on http://localhost:5000
@@ -165,65 +165,59 @@ npm install
 cp .env.example .env
 ```
 
-**Configure `.env`:**
+Configure `.env`:
 ```env
 VITE_API_URL=http://localhost:5000
 VITE_GOOGLE_CLIENT_ID=your_google_client_id_here
 ```
 
-**Start Frontend:**
+Start Frontend:
 ```bash
 npm run dev
 # App runs on http://localhost:5173
 ```
 
-**Build for Production:**
+Build for Production:
 ```bash
 npm run build
 npm run preview
 ```
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### 1. First Time Setup
-1. Open the app in your browser
-2. Click "Ücretsiz Başla" (Start Free)
-3. Register with email or Google
-4. Complete your profile with:
-   - Age, city, education
-   - Work experience (if applicable)
-   - Career goals and interests
-   - Daily study hours
+1. Open the application in your browser
+2. Click "Start Free" to begin
+3. Register using email or Google account
+4. Complete your profile with personal information, education, work experience, and career goals
 
 ### 2. Get AI Advice
-1. Go to "AI Koç" tab
-2. Click "✨ Analiz & Tavsiye Al"
-3. Receive personalized career recommendations
-4. Or chat with AI coach for specific questions
+1. Navigate to the "AI Coach" tab
+2. Click "Get Analysis & Advice" for personalized recommendations
+3. Use the chat interface for specific questions and guidance
 
 ### 3. Follow Your Roadmap
-1. Navigate to "Yol Haritası" tab
-2. Click "✨ Plan Oluştur" to generate tasks
-3. Complete tasks and check them off
-4. Level up when all tasks are done
-5. Generate new roadmap for next level
+1. Go to the "Roadmap" tab
+2. Click "Generate Plan" to create personalized tasks
+3. Complete tasks and mark them as done
+4. Level up when all tasks are completed
+5. Generate new roadmap for the next level
 
 ### 4. Take Notes
-1. Go to "Not Defteri" tab
-2. Add title and content
-3. Click "Ekle" to save
-4. Search notes using the search bar
-5. Click notes to view full content
+1. Access the "Notes" tab
+2. Add title and content for your notes
+3. Use the search bar to find specific notes
+4. Click on notes to view full content
 
 ### 5. Use Focus Timer
-1. Open "Focus Modu" tab
-2. Set work time (default: 25 min)
-3. Set break time (default: 5 min)
-4. Choose background theme
-5. Click play to start
-6. Enter fullscreen for immersive experience
+1. Open the "Focus Mode" tab
+2. Set work time (default: 25 minutes)
+3. Set break time (default: 5 minutes)
+4. Choose your preferred background theme
+5. Click play to start the timer
+6. Enter fullscreen for an immersive experience
 
-## 📱 Responsive Design
+## Responsive Design
 
 ### Desktop (>768px)
 - Sidebar navigation
@@ -236,57 +230,57 @@ npm run preview
 - Single-column layouts
 - Collapsible chat sidebar
 - Touch-optimized controls
-- Swipe gestures
+- Swipe gesture support
 
-## 🔒 Security Features
+## Security Features
 
 ### Authentication
-- ✅ JWT token-based authentication
-- ✅ Secure password hashing (bcrypt, 10 rounds)
-- ✅ Token expiration (24 hours)
-- ✅ Auto-logout on token expiry
-- ✅ Google OAuth 2.0 integration
+- JWT token-based authentication
+- Secure password hashing (bcrypt, 10 rounds)
+- Token expiration (24 hours)
+- Automatic logout on token expiry
+- Google OAuth 2.0 integration
 
 ### Data Protection
-- ✅ Input validation and sanitization
-- ✅ SQL injection prevention (parameterized queries)
-- ✅ XSS protection
-- ✅ CORS configuration
-- ✅ Environment variable protection
-- ✅ HTTPS enforcement (production)
+- Input validation and sanitization
+- SQL injection prevention (parameterized queries)
+- XSS protection
+- CORS configuration
+- Environment variable protection
+- HTTPS enforcement (production)
 
 ### Error Handling
-- ✅ Graceful error messages
-- ✅ No sensitive data in errors
-- ✅ Logging system (dev only)
-- ✅ Network error handling
-- ✅ 401/403/404/500 status handling
+- Graceful error messages
+- No sensitive data exposure in errors
+- Development-only logging
+- Network error handling
+- Comprehensive HTTP status handling (401/403/404/500)
 
-## 🎨 UI/UX Highlights
+## UI/UX Highlights
 
 ### Design Principles
-- **Clean & Modern**: Minimalist interface
-- **Intuitive**: Easy to navigate
-- **Responsive**: Works on all devices
-- **Accessible**: WCAG 2.1 compliant
-- **Fast**: Optimized performance
+- Clean and modern minimalist interface
+- Intuitive navigation
+- Responsive across all devices
+- WCAG 2.1 accessibility compliance
+- Optimized performance
 
 ### Animations
 - Smooth page transitions
-- Hover effects on interactive elements
+- Interactive hover effects
 - Loading spinners
 - Toast notifications
 - Modal slide-in animations
 
 ### Accessibility
 - ARIA labels on all interactive elements
-- Keyboard navigation support
-- Screen reader compatible
+- Full keyboard navigation support
+- Screen reader compatibility
 - High contrast ratios
-- Focus indicators
-- Semantic HTML
+- Visible focus indicators
+- Semantic HTML structure
 
-## 📊 Database Schema
+## Database Schema
 
 ### Tables
 
@@ -354,7 +348,7 @@ npm run preview
 - created_at, updated_at
 ```
 
-## 🌐 API Documentation
+## API Documentation
 
 ### Authentication Endpoints
 
@@ -369,7 +363,7 @@ Request:
 
 Response:
 {
-  "message": "Kayıt başarılı!",
+  "message": "Registration successful",
   "userId": 1
 }
 ```
@@ -432,7 +426,7 @@ Request:
 Response:
 {
   "success": true,
-  "message": "Profil kaydedildi"
+  "message": "Profile saved successfully"
 }
 ```
 
@@ -463,7 +457,7 @@ Request:
 Response:
 {
   "sessionId": 1,
-  "message": "Merhaba John! Nasıl yardımcı olabilirim?"
+  "message": "Hello John! How can I help you today?"
 }
 ```
 
@@ -472,12 +466,12 @@ Response:
 Request:
 {
   "sessionId": 1,
-  "userMessage": "React nasıl öğrenebilirim?"
+  "userMessage": "How can I learn React?"
 }
 
 Response:
 {
-  "message": "React öğrenmek için..."
+  "message": "To learn React effectively..."
 }
 ```
 
@@ -489,7 +483,7 @@ Response:
 [
   {
     "id": 1,
-    "task": "HTML ve CSS temellerini öğren",
+    "task": "Learn HTML and CSS fundamentals",
     "is_completed": true,
     "level": 1
   },
@@ -502,7 +496,7 @@ Response:
 Response:
 {
   "roadmap": [...],
-  "message": "Plan oluşturuldu"
+  "message": "Roadmap generated successfully"
 }
 ```
 
@@ -512,7 +506,7 @@ Response:
 {
   "success": true,
   "newLevel": 2,
-  "message": "Tebrikler! Level 2'ye geçtin!"
+  "message": "Congratulations! You've reached Level 2!"
 }
 ```
 
@@ -525,7 +519,7 @@ Response:
   {
     "id": 1,
     "title": "React Hooks",
-    "content": "useState ve useEffect...",
+    "content": "useState and useEffect...",
     "created_at": "2024-01-15T10:30:00Z"
   },
   ...
@@ -537,13 +531,13 @@ Response:
 Request:
 {
   "title": "React Hooks",
-  "content": "useState ve useEffect..."
+  "content": "useState and useEffect..."
 }
 
 Response:
 {
   "id": 1,
-  "message": "Not eklendi"
+  "message": "Note added successfully"
 }
 ```
 
@@ -551,11 +545,11 @@ Response:
 ```json
 Response:
 {
-  "message": "Not silindi"
+  "message": "Note deleted successfully"
 }
 ```
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run backend tests
@@ -570,7 +564,7 @@ npm test
 npm run test:e2e
 ```
 
-## 📈 Performance Optimization
+## Performance Optimization
 
 - Code splitting with React.lazy
 - Image optimization
@@ -580,9 +574,9 @@ npm run test:e2e
 - Efficient re-renders
 - Optimized bundle size
 
-## 🤝 Contributing
+## Contributing
 
-This is a personal portfolio project, but feedback and suggestions are welcome!
+This is a personal portfolio project, but feedback and suggestions are welcome.
 
 ### How to Contribute
 1. Fork the repository
@@ -591,27 +585,26 @@ This is a personal portfolio project, but feedback and suggestions are welcome!
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
-This project is private and all rights are reserved.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Developer
+## Developer
 
 **Eda Nur Binici**
 - GitHub: [@EdaNurBinici](https://github.com/EdaNurBinici)
 - LinkedIn: [Eda Nur Binici](https://linkedin.com/in/edanurbinici)
-- Email: edanurbinici@example.com
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- **Groq AI** - Powerful language models
-- **Google OAuth** - Secure authentication
-- **Render.com** - Reliable hosting
-- **React Community** - Excellent ecosystem
-- **PostgreSQL** - Robust database
-- **Vite** - Fast build tool
+- Groq AI for powerful language models
+- Google OAuth for secure authentication
+- Render.com for reliable hosting
+- React Community for excellent ecosystem
+- PostgreSQL for robust database
+- Vite for fast build tool
 
-## 📚 Documentation
+## Documentation
 
 - [Setup Guide](SETUP.md)
 - [Deployment Guide](DEPLOYMENT.md)
@@ -619,23 +612,19 @@ This project is private and all rights are reserved.
 - [Frontend Documentation](frontend/README.md)
 - [Troubleshooting](TROUBLESHOOTING.md)
 
-## 🐛 Known Issues
-
-- None currently! 🎉
-
-## 🗺️ Roadmap
+## Roadmap
 
 ### Planned Features
-- [ ] Email verification
-- [ ] Password reset functionality
-- [ ] Export notes as PDF
-- [ ] Calendar integration
-- [ ] Mobile app (React Native)
-- [ ] Team collaboration features
-- [ ] Analytics dashboard
-- [ ] Multi-language support
+- Email verification
+- Password reset functionality
+- Export notes as PDF
+- Calendar integration
+- Mobile app (React Native)
+- Team collaboration features
+- Analytics dashboard
+- Multi-language support
 
-## 📞 Support
+## Support
 
 If you encounter any issues or have questions:
 1. Check the [Troubleshooting Guide](TROUBLESHOOTING.md)
@@ -644,6 +633,4 @@ If you encounter any issues or have questions:
 
 ---
 
-**Built with ❤️ by Eda Nur Binici**
-
-*This project demonstrates full-stack development expertise including React, Node.js, PostgreSQL, AI integration, authentication, responsive design, and modern web development best practices.*
+This project demonstrates full-stack development expertise including React, Node.js, PostgreSQL, AI integration, authentication, responsive design, and modern web development best practices.
