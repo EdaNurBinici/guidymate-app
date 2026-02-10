@@ -4,14 +4,30 @@ import "./App.css";
 import { API_URL } from "./config";
 import { useWindowSize } from "./hooks/useWindowSize";
 import ThemeToggle from "./components/ThemeToggle";
+import LanguageToggle from "./components/LanguageToggle";
 import ConfirmModal from "./components/ConfirmModal";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { apiCall, logger } from "./utils/api";
+import { useTranslation } from "./i18n/translations";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const GOOGLE_ENABLED = GOOGLE_CLIENT_ID && GOOGLE_CLIENT_ID !== 'your_google_client_id_here';
 
 function App() {
+  // Dil desteği
+  const [language, setLanguage] = useState(() => {
+    const savedLang = localStorage.getItem('language') || 'tr';
+    console.log("🌍 Initial language:", savedLang); // DEBUG
+    return savedLang;
+  });
+  
+  // Dil değiştiğinde log
+  useEffect(() => {
+    console.log("🌍 Language changed to:", language); // DEBUG
+  }, [language]);
+  
+  const t = useTranslation(language);
+  
   const { width: windowWidth } = useWindowSize();
   const [showNotesModal, setShowNotesModal] = useState(false);
   
@@ -109,18 +125,18 @@ function App() {
   }, [isFullscreen]);
   
   const gradientOptions = [
-    { id: "gradient", name: "Mor Gradient", value: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
-    { id: "blue", name: "Mavi Gradient", value: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" },
-    { id: "green", name: "Yeşil Gradient", value: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)" },
-    { id: "sunset", name: "Gün Batımı", value: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
-    { id: "ocean", name: "Okyanus", value: "linear-gradient(135deg, #2e3192 0%, #1bffff 100%)" },
+    { id: "gradient", name: language === 'en' ? t.purpleGradient : "Mor Gradient", value: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
+    { id: "blue", name: language === 'en' ? t.blueGradient : "Mavi Gradient", value: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" },
+    { id: "green", name: language === 'en' ? t.greenGradient : "Yeşil Gradient", value: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)" },
+    { id: "sunset", name: t.sunset, value: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
+    { id: "ocean", name: t.ocean, value: "linear-gradient(135deg, #2e3192 0%, #1bffff 100%)" },
   ];
   
   const imageOptions = [
-    { id: "forest", name: "🌲 Orman", value: "/timer-backgrounds/forest.png" },
-    { id: "mountain", name: "⛰️ Dağ", value: "/timer-backgrounds/mountain.png" },
-    { id: "library", name: "📚 Kütüphane", value: "/timer-backgrounds/library.png" },
-    { id: "space", name: "🌌 Uzay", value: "/timer-backgrounds/space.png" },
+    { id: "forest", name: t.forest, value: "/timer-backgrounds/forest.png" },
+    { id: "mountain", name: t.mountain, value: "/timer-backgrounds/mountain.png" },
+    { id: "library", name: t.library, value: "/timer-backgrounds/library.png" },
+    { id: "space", name: t.space, value: "/timer-backgrounds/space.png" },
   ];
 
   const [formData, setFormData] = useState({
@@ -175,11 +191,11 @@ function App() {
       if (!isBreak) {
         setIsBreak(true);
         setTimeLeft(breakTime * 60);
-        showToast("🔔 Mola Vakti!");
+        showToast(t.breakTimeNotif);
       } else {
         setIsBreak(false);
         setTimeLeft(focusTime * 60);
-        showToast("💪 Ders Vakti!");
+        showToast(t.studyTimeNotif);
       }
     }
     return () => clearInterval(interval);
@@ -280,7 +296,7 @@ function App() {
 
   const addNote = async () => {
     if (!newNote.title.trim()) {
-      showToast("⚠️ Başlık yazmalısın!");
+      showToast(t.titleRequired);
       return;
     }
     
@@ -290,7 +306,7 @@ function App() {
     if (result.success) {
       fetchNotes();
       setNewNote({ title: "", content: "" });
-      showToast("Not Eklendi! ✅");
+      showToast(t.noteAdded);
     } else {
       showToast(`❌ ${result.error}`);
     }
@@ -302,15 +318,15 @@ function App() {
     e.stopPropagation();
     
     showConfirm(
-      "Not Sil",
-      "Bu notu silmek istediğine emin misin?",
+      t.deleteNote || "Delete Note",
+      t.deleteNoteConfirm,
       async () => {
         setLoadingStates(prev => ({ ...prev, deleteNote: true }));
         const result = await apiCall(`/notes/${id}`, "DELETE");
         
         if (result.success) {
           setNotes(notes.filter((n) => n.id !== id));
-          showToast("Not Silindi 🗑️");
+          showToast(t.noteDeleted);
           if (selectedNote && selectedNote.id === id) {
             setSelectedNote(null);
           }
@@ -344,11 +360,13 @@ function App() {
 
   const startNewChat = async () => {
     setCoachLoading(true);
-    const result = await apiCall("/coach/start", "POST", { userName: authData.name });
+    console.log("🌍 Frontend - Starting new chat with language:", language); // DEBUG
+    const result = await apiCall("/coach/start", "POST", { userName: authData.name, language });
     
     if (result.success) {
       setCoachSessionId(result.data.sessionId);
       setCoachMessages([{ role: "assistant", content: result.data.message }]);
+      console.log("✅ AI Response received:", result.data.message.substring(0, 100)); // DEBUG
       fetchSessions();
     } else {
       showToast(`❌ ${result.error}`);
@@ -361,6 +379,7 @@ function App() {
     if (!coachInput.trim()) return;
     
     const txt = coachInput;
+    console.log("🌍 Frontend - Sending message with language:", language); // DEBUG
     setCoachMessages((p) => [...p, { role: "user", content: txt }]);
     setCoachInput("");
     setCoachLoading(true);
@@ -368,10 +387,12 @@ function App() {
     const result = await apiCall("/coach/reply", "POST", {
       sessionId: coachSessionId,
       userMessage: txt,
+      language,
     });
     
     if (result.success) {
       setCoachMessages((p) => [...p, { role: "assistant", content: result.data.message }]);
+      console.log("✅ AI Response received:", result.data.message.substring(0, 100)); // DEBUG
       fetchSessions();
     } else {
       showToast(`❌ ${result.error}`);
@@ -384,8 +405,8 @@ function App() {
     e.stopPropagation();
     
     showConfirm(
-      "Sohbet Sil",
-      "Bu sohbeti silmek istediğine emin misin?",
+      t.deleteSession,
+      t.deleteSessionConfirm,
       async () => {
         const result = await apiCall(`/coach/sessions/${id}`, "DELETE");
         
@@ -395,7 +416,7 @@ function App() {
             setCoachSessionId(null);
             setCoachMessages([]);
           }
-          showToast("Sohbet silindi.");
+          showToast(t.sessionDeleted);
         } else {
           showToast(`❌ ${result.error}`);
         }
@@ -409,14 +430,14 @@ function App() {
     e.stopPropagation();
     
     showPrompt(
-      "Sohbet Adını Değiştir",
-      "Yeni sohbet adı...",
+      t.renameSession,
+      t.newChatName,
       async (newTitle) => {
         const result = await apiCall(`/coach/sessions/${id}`, "PUT", { title: newTitle });
         
         if (result.success) {
           fetchSessions();
-          showToast("İsim güncellendi.");
+          showToast(t.nameUpdated);
         } else {
           showToast(`❌ ${result.error}`);
         }
@@ -441,7 +462,7 @@ function App() {
   const generateRoadmap = async () => {
     setRoadmapLoading(true);
     try {
-      const result = await apiCall("/roadmap/generate", "POST");
+      const result = await apiCall("/roadmap/generate", "POST", { language });
       
       if (!result.success) {
         showToast(`❌ ${result.error}`);
@@ -453,13 +474,14 @@ function App() {
         fetchRoadmap();
       } else if (result.data.roadmap) {
         setRoadmap(result.data.roadmap);
-        showToast("Plan Oluşturuldu! 🚀");
+        // Backend'den gelen mesajı kullan, yoksa translation'ı kullan
+        showToast(result.data.message || t.planCreated);
       } else if (result.data.message) {
         showToast(result.data.message);
       }
     } catch (error) {
       logger.error("Plan hatası:", error);
-      showToast("Bir sorun oluştu.");
+      showToast(language === 'en' ? "An error occurred." : "Bir sorun oluştu.");
     } finally {
       setRoadmapLoading(false);
     }
@@ -471,7 +493,7 @@ function App() {
   };
 
   const handleLevelUp = async () => {
-    const result = await apiCall("/roadmap/levelup", "POST");
+    const result = await apiCall("/roadmap/levelup", "POST", { language });
     
     if (result.success && result.data.success) {
       showToast(result.data.message);
@@ -484,16 +506,16 @@ function App() {
 
   const resetRoadmap = async () => {
     showConfirm(
-      "Yol Haritasını Sıfırla",
-      "Tüm ilerleme kaybedilecek. Emin misin?",
+      t.resetRoadmap,
+      t.resetConfirm,
       async () => {
-        const result = await apiCall("/roadmap/reset", "POST");
+        const result = await apiCall("/roadmap/reset", "POST", { language });
         
         if (result.success) {
           setCurrentLevel(1);
           setRoadmap([]);
           setActiveTab("profile");
-          showToast("Sıfırlandı 🔄");
+          showToast(t.resetDone);
         } else {
           showToast(`❌ ${result.error}`);
         }
@@ -520,7 +542,7 @@ function App() {
     const result = await apiCall("/profile", "POST", formData);
     
     if (result.success && result.data.success) {
-      showToast("Profil Kaydedildi! ✅");
+      showToast(t.profileSaved);
       setProfile(formData);
       setActiveTab("advice");
     } else {
@@ -530,13 +552,13 @@ function App() {
 
   const askAI = async () => {
     if (!profile) {
-      showToast("Önce profili doldur!");
+      showToast(t.fillProfile);
       setActiveTab("profile");
       return;
     }
     
     setLoadingAI(true);
-    const result = await apiCall("/get-ai-advice", "POST", profile);
+    const result = await apiCall("/get-ai-advice", "POST", { ...profile, language });
     
     if (result.success) {
       setAiAdvice(result.data.advice);
@@ -567,7 +589,7 @@ function App() {
         localStorage.setItem("token", data.token);
         setUserId(data.userId);
         checkProfile(data.userId);
-        showToast("Giriş başarılı! 🎉");
+        showToast(t.loginSuccess);
         setMessage("");
       } else {
         // Kullanıcı dostu hata mesajları
@@ -614,7 +636,7 @@ function App() {
       const data = await res.json();
       
       if (res.ok) {
-        showToast("Kayıt başarılı! Şimdi giriş yapabilirsin 🎉");
+        showToast(t.registerSuccess);
         setView("login");
         setMessage("✅ Kayıt başarılı! Şimdi giriş yap.");
         setAuthData({ name: "", email: "", password: "" });
@@ -645,7 +667,7 @@ function App() {
         localStorage.setItem("token", data.token);
         setUserId(data.userId);
         checkProfile(data.userId);
-        showToast("Google ile giriş başarılı! 🎉");
+        showToast(t.googleLoginSuccess);
       } else {
         setMessage(data.message || "Google ile giriş başarısız");
       }
@@ -667,65 +689,65 @@ function App() {
     return (
       <>
         <ThemeToggle />
+        <LanguageToggle language={language} setLanguage={setLanguage} />
         <div className="landing-container">
           <div className="landing-content">
-            <h1 className="hero-title">Kariyerini Yapay Zeka ile Planla</h1>
+            <h1 className="hero-title">{t.heroTitle}</h1>
             <p className="hero-subtitle">
-              Hedeflerine ulaşmak için kişiselleştirilmiş yol haritası, AI koçluk ve 
-              üretkenlik araçlarıyla kariyerini bir üst seviyeye taşı
+              {t.heroSubtitle}
             </p>
             
             <button className="start-btn" onClick={() => setView("login")}>
-              Ücretsiz Başla 🚀
+              {t.startButton}
             </button>
             <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "0.9rem", marginTop: "10px" }}>
-              Kredi kartı gerekmez • 2 dakikada kurulum
+              {t.noCreditCard}
             </p>
 
             {/* Özellikler */}
             <div className="features-grid">
               <div className="feature-card">
                 <div className="feature-icon">🤖</div>
-                <h3>AI Kariyer Koçu</h3>
-                <p>Yapay zeka destekli kişiselleştirilmiş kariyer tavsiyeleri ve interaktif sohbet</p>
+                <h3>{t.aiCoachTitle}</h3>
+                <p>{t.aiCoachDesc}</p>
               </div>
               
               <div className="feature-card">
                 <div className="feature-icon">🗺️</div>
-                <h3>Akıllı Yol Haritası</h3>
-                <p>Hedeflerine göre AI tarafından oluşturulan öğrenme yolu ve seviye sistemi</p>
+                <h3>{t.roadmapTitle}</h3>
+                <p>{t.roadmapDesc}</p>
               </div>
               
               <div className="feature-card">
                 <div className="feature-icon">📝</div>
-                <h3>Not Defteri</h3>
-                <p>Kariyer yolculuğunu belgele, notlarını organize et ve kolayca ara</p>
+                <h3>{t.notesTitle}</h3>
+                <p>{t.notesDesc}</p>
               </div>
               
               <div className="feature-card">
                 <div className="feature-icon">⏱️</div>
-                <h3>Focus Timer</h3>
-                <p>Pomodoro tekniği ile üretkenliğini artır, özelleştirilebilir temalar</p>
+                <h3>{t.timerTitle}</h3>
+                <p>{t.timerDesc}</p>
               </div>
               
               <div className="feature-card">
                 <div className="feature-icon">📊</div>
-                <h3>İlerleme Takibi</h3>
-                <p>Hedeflerini görselleştir, başarılarını kutla, motivasyonunu koru</p>
+                <h3>{t.progressTitle}</h3>
+                <p>{t.progressDesc}</p>
               </div>
               
               <div className="feature-card">
                 <div className="feature-icon">🎨</div>
-                <h3>Kişiselleştirme</h3>
-                <p>Light, Dark ve Autumn temaları ile kendi tarzını yarat</p>
+                <h3>{t.customizeTitle}</h3>
+                <p>{t.customizeDesc}</p>
               </div>
             </div>
 
             {/* CTA */}
             <div style={{ marginTop: "60px", textAlign: "center" }}>
-              <h2 style={{ fontSize: "2rem", marginBottom: "20px" }}>Kariyerinde Bir Sonraki Adımı At</h2>
+              <h2 style={{ fontSize: "2rem", marginBottom: "20px" }}>{t.nextStepTitle}</h2>
               <button className="start-btn" onClick={() => setView("login")}>
-                Hemen Başla →
+                {t.startNowButton}
               </button>
             </div>
           </div>
@@ -738,23 +760,24 @@ function App() {
     return (
       <>
         <ThemeToggle />
+        <LanguageToggle language={language} setLanguage={setLanguage} />
         <div className="login-wrapper">
         <div className="login-container">
-          <h2>{view === "login" ? "Giriş Yap" : "Kayıt Ol"}</h2>
+          <h2>{view === "login" ? t.login : t.register}</h2>
           <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
             <button
               className={`primary-btn ${view === "login" ? "" : "outline"}`}
               onClick={() => setView("login")}
               style={{ opacity: view === "login" ? 1 : 0.5 }}
             >
-              Giriş
+              {t.loginTab}
             </button>
             <button
               className={`primary-btn ${view === "register" ? "" : "outline"}`}
               onClick={() => setView("register")}
               style={{ opacity: view === "register" ? 1 : 0.5 }}
             >
-              Kayıt
+              {t.registerTab}
             </button>
           </div>
           <form
@@ -763,36 +786,40 @@ function App() {
           >
             {view === "register" && (
               <input
-                placeholder="Adın"
+                placeholder={t.name}
                 onChange={(e) => setAuthData({ ...authData, name: e.target.value })}
               />
             )}
             <input
-              placeholder="Email"
+              placeholder={t.email}
               onChange={(e) => setAuthData({ ...authData, email: e.target.value })}
             />
             <input
               type="password"
-              placeholder="Şifre"
+              placeholder={t.password}
               onChange={(e) => setAuthData({ ...authData, password: e.target.value })}
             />
-            <button className="primary-btn">{view === "login" ? "Giriş" : "Kayıt Ol"}</button>
+            <button className="primary-btn">{view === "login" ? t.login : t.register}</button>
           </form>
           
           {/* Google ile Giriş - Sadece Client ID varsa göster */}
           {GOOGLE_ENABLED && (
             <div style={{ margin: "20px 0", textAlign: "center" }}>
-              <p style={{ color: "#718096", marginBottom: "10px" }}>veya</p>
+              <p style={{ color: "#718096", marginBottom: "10px" }}>{t.orText}</p>
               <GoogleLogin
                 onSuccess={handleGoogleLogin}
-                onError={() => {
-                  setMessage("Google ile giriş başarısız");
+                onError={(error) => {
+                  console.error('Google Login Error:', error);
+                  setMessage("❌ Google ile giriş başarısız. Lütfen tekrar dene.");
                 }}
                 text={view === "login" ? "signin_with" : "signup_with"}
                 shape="rectangular"
                 theme="outline"
                 size="large"
                 width="100%"
+                ux_mode="popup"
+                useOneTap={false}
+                auto_select={false}
               />
             </div>
           )}
@@ -811,7 +838,7 @@ function App() {
           )}
           
           <p onClick={() => setView("landing")} style={{ cursor: "pointer", color: "#718096", marginTop: "15px" }}>
-            ← Geri
+            {t.backButton}
           </p>
         </div>
       </div>
@@ -821,7 +848,12 @@ function App() {
 
   return (
     <>
-      {activeTab !== "focus" && <ThemeToggle />}
+      {activeTab !== "focus" && (
+        <>
+          <ThemeToggle />
+          <LanguageToggle language={language} setLanguage={setLanguage} />
+        </>
+      )}
       
       {/* Confirm/Prompt Modal */}
       <ConfirmModal
@@ -834,6 +866,8 @@ function App() {
         inputValue={confirmModal.inputValue}
         onInputChange={(value) => setConfirmModal(prev => ({ ...prev, inputValue: value }))}
         inputPlaceholder={confirmModal.inputPlaceholder}
+        confirmText={t.confirmButton}
+        cancelText={t.cancelButton}
       />
       
       <div className="dashboard-wrapper">
@@ -857,7 +891,7 @@ function App() {
 
       {/* DESKTOP Sidebar */}
       <aside className="sidebar-panel" style={{ display: windowWidth >= 768 ? "flex" : "none" }}>
-        <div className="sidebar-title">KariyerAsistanı</div>
+        <div className="sidebar-title">{t.appName}</div>
         <div className="sidebar-menu">
           <div
             className={`nav-btn ${activeTab === "profile" ? "active" : ""}`}
@@ -865,10 +899,10 @@ function App() {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && setActiveTab("profile")}
-            aria-label="Profil sayfasına git"
+            aria-label="Profile page"
             aria-current={activeTab === "profile" ? "page" : undefined}
           >
-            👤 Profilim
+            {t.profile}
           </div>
           <div
             className={`nav-btn ${activeTab === "advice" ? "active" : ""}`}
@@ -876,10 +910,10 @@ function App() {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && setActiveTab("advice")}
-            aria-label="AI Koç sayfasına git"
+            aria-label="AI Coach page"
             aria-current={activeTab === "advice" ? "page" : undefined}
           >
-            🤖 AI Koç
+            {t.aiCoach}
           </div>
           <div
             className={`nav-btn ${activeTab === "roadmap" ? "active" : ""}`}
@@ -887,10 +921,10 @@ function App() {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && setActiveTab("roadmap")}
-            aria-label="Yol Haritası sayfasına git"
+            aria-label="Roadmap page"
             aria-current={activeTab === "roadmap" ? "page" : undefined}
           >
-            🗺️ Yol Haritası
+            {t.roadmap}
           </div>
           <div
             className={`nav-btn ${activeTab === "notes" ? "active" : ""}`}
@@ -898,10 +932,10 @@ function App() {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && setActiveTab("notes")}
-            aria-label="Not Defteri sayfasına git"
+            aria-label="Notes page"
             aria-current={activeTab === "notes" ? "page" : undefined}
           >
-            📝 Not Defteri
+            {t.notes}
           </div>
           <div
             className={`nav-btn ${activeTab === "focus" ? "active" : ""}`}
@@ -909,10 +943,10 @@ function App() {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && setActiveTab("focus")}
-            aria-label="Focus Modu sayfasına git"
+            aria-label="Focus Mode page"
             aria-current={activeTab === "focus" ? "page" : undefined}
           >
-            ⏱️ Focus Modu
+            {t.focusMode}
           </div>
         </div>
 
@@ -930,7 +964,7 @@ function App() {
             border: "1px solid #feb2b2",
           }}
         >
-          Çıkış
+          {t.logout}
         </button>
       </aside>
 
@@ -938,120 +972,120 @@ function App() {
         <div className="content-card">
           {activeTab === "profile" && (
             <>
-              <h2>Profil Bilgileri</h2>
+              <h2>{t.profileTitle}</h2>
               <form onSubmit={saveProfile} className="profile-grid">
                 <input
                   name="age"
                   value={formData.age}
-                  placeholder="Yaş"
+                  placeholder={t.age}
                   onChange={handleChange}
                   type="number"
                   min="10"
                   max="100"
                   required
-                  aria-label="Yaşınızı girin"
+                  aria-label={t.age}
                 />
                 <input
                   name="city"
                   value={formData.city}
-                  placeholder="Şehir"
+                  placeholder={t.city}
                   onChange={handleChange}
                   required
-                  aria-label="Şehir adını girin"
+                  aria-label={t.city}
                 />
                 <select 
                   name="is_student" 
                   value={formData.is_student} 
                   onChange={handleChange}
-                  aria-label="Öğrenci durumunuzu seçin"
+                  aria-label={t.student}
                 >
-                  <option value="false">Öğrenci misin? (Hayır)</option>
-                  <option value="true">Öğrenciyim (Evet)</option>
+                  <option value="false">{t.student} ({t.no})</option>
+                  <option value="true">{t.yes}</option>
                 </select>
                 <input
                   name="grade"
                   value={formData.grade}
-                  placeholder="Sınıf / Dönem"
+                  placeholder={t.grade}
                   onChange={handleChange}
-                  aria-label="Sınıf veya dönem bilgisi"
+                  aria-label={t.grade}
                 />
                 <input
                   name="university"
                   value={formData.university}
-                  placeholder="Üniversite"
+                  placeholder={t.university}
                   onChange={handleChange}
-                  aria-label="Üniversite adı"
+                  aria-label={t.university}
                 />
                 <input
                   name="uni_type"
                   value={formData.uni_type}
-                  placeholder="Bölüm Tipi"
+                  placeholder={t.uniType}
                   onChange={handleChange}
-                  aria-label="Bölüm tipi"
+                  aria-label={t.uniType}
                 />
                 <input
                   name="department"
                   value={formData.department}
-                  placeholder="Bölüm"
+                  placeholder={t.department}
                   onChange={handleChange}
-                  aria-label="Bölüm adı"
+                  aria-label={t.department}
                 />
                 <select 
                   name="is_working" 
                   value={formData.is_working} 
                   onChange={handleChange}
-                  aria-label="Çalışma durumunuzu seçin"
+                  aria-label={t.working}
                 >
-                  <option value="false">Çalışıyor musun? (Hayır)</option>
-                  <option value="true">Çalışıyorum (Evet)</option>
+                  <option value="false">{t.working} ({t.no})</option>
+                  <option value="true">{t.yes}</option>
                 </select>
                 <input
                   name="sector"
                   value={formData.sector}
-                  placeholder="Sektör"
+                  placeholder={t.sector}
                   onChange={handleChange}
-                  aria-label="Çalıştığınız sektör"
+                  aria-label={t.sector}
                 />
                 <input
                   name="position"
                   value={formData.position}
-                  placeholder="Pozisyon"
+                  placeholder={t.position}
                   onChange={handleChange}
-                  aria-label="Pozisyon bilgisi"
+                  aria-label={t.position}
                 />
                 <input
                   name="study_hours"
                   value={formData.study_hours}
                   type="number"
-                  placeholder="Günlük Çalışma Saati"
+                  placeholder={t.studyHours}
                   onChange={handleChange}
                   min="0"
                   max="24"
                   step="0.5"
                   required
-                  aria-label="Günlük çalışma saati (0-24 arası)"
+                  aria-label={t.studyHours}
                 />
                 <div style={{ gridColumn: "span 2" }}>
-                  <label htmlFor="interests">🎯 ANA HEDEFİN NEDİR?</label>
+                  <label htmlFor="interests">🎯 {t.interests}</label>
                   <textarea
                     id="interests"
                     name="interests"
                     value={formData.interests}
-                    placeholder="Hedefin..."
+                    placeholder={t.interests}
                     onChange={handleChange}
                     required
                     minLength="10"
                     maxLength="500"
-                    aria-label="Ana hedefinizi yazın (10-500 karakter)"
+                    aria-label={t.interests}
                   />
                 </div>
                 <button 
                   type="submit" 
                   className="primary-btn" 
                   style={{ gridColumn: "span 2" }}
-                  aria-label="Profil bilgilerini kaydet"
+                  aria-label={t.updateButton}
                 >
-                  Güncelle ✅
+                  {t.updateButton}
                 </button>
               </form>
 
@@ -1068,14 +1102,14 @@ function App() {
                   border: "1px solid #fecaca",
                 }}
               >
-                Çıkış Yap
+                {t.logout}
               </button>
             </>
           )}
 
           {activeTab === "advice" && (
   <>
-    <h2>🤖 AI Kariyer Koçu</h2>
+    <h2>{t.aiCoachTitle2}</h2>
     <div className="coach-grid">
       <div className="advice-column">
         {/* Büyük ekran: iki buton yan yana */}
@@ -1084,13 +1118,13 @@ function App() {
             onClick={() => setAiMode("advice")}
             className={`ai-mode-btn ${aiMode === "advice" ? "active" : ""}`}
           >
-            ✨ Analiz & Tavsiye Al
+            {t.analysisAdvice}
           </button>
           <button
             onClick={() => setAiMode("chat")}
             className={`ai-mode-btn ${aiMode === "chat" ? "active" : ""}`}
           >
-            💬 Sohbet Et
+            {t.chat}
           </button>
         </div>
 
@@ -1101,13 +1135,13 @@ function App() {
               onClick={() => setMobileAiMode("advice")}
               className={`toggle-btn ${mobileAiMode === "advice" ? "active" : ""}`}
             >
-              Analiz & Tavsiye
+              {t.analysisAdvice}
             </button>
             <button
               onClick={() => setMobileAiMode("chat")}
               className={`toggle-btn ${mobileAiMode === "chat" ? "active" : ""}`}
             >
-              Sohbet Et
+              {t.chat}
             </button>
           </div>
         </div>
@@ -1116,16 +1150,16 @@ function App() {
         {(windowWidth > 768 ? aiMode : mobileAiMode) === "advice" && (
           <>
             <button onClick={askAI} className="primary-btn action-btn">
-              Şimdi Analiz & Tavsiye Al
+              {t.getAnalysis}
             </button>
             <div className="ai-advice-box">
               {loadingAI ? (
-                <p>Analiz yapılıyor...</p>
+                <p>{t.analyzing}</p>
               ) : aiAdvice ? (
                 <ReactMarkdown>{aiAdvice}</ReactMarkdown>
               ) : (
                 <p style={{ color: "#647794", textAlign: "center" }}>
-                  Henüz analiz almadın. Yukarıdaki butona bas.
+                  {t.noAnalysisYet}
                 </p>
               )}
             </div>
@@ -1149,7 +1183,7 @@ function App() {
   <div className="sidebar-search">
     <input
       type="text"
-      placeholder="Sohbet ara..."
+      placeholder={t.searchChat}
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
     />
@@ -1163,13 +1197,13 @@ function App() {
     }}
     className="primary-btn new-chat-btn"
   >
-    + Yeni Sohbet
+    {t.newChat}
   </button>
 
   {/* Filtreli sohbet listesi */}
   {sessions
     .filter((s) =>
-      (s.title || "Sohbet")
+      (s.title || t.chatTitle)
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
     )
@@ -1189,7 +1223,7 @@ function App() {
             fontWeight: coachSessionId === s.id ? "bold" : "normal",
           }}
         >
-          {s.title || "Sohbet"}
+          {s.title || t.chatTitle}
         </span>
         <button
           className="session-menu-btn"
@@ -1203,13 +1237,13 @@ function App() {
         {activeMenuId === s.id && (
           <div className="session-dropdown">
             <button onClick={(e) => handleRenameSession(e, s.id)}>
-              ✏️ Adlandır
+              {t.rename}
             </button>
             <button
               className="delete-btn"
               onClick={(e) => handleDeleteSession(e, s.id)}
             >
-              🗑️ Sil
+              {t.delete}
             </button>
           </div>
         )}
@@ -1226,7 +1260,7 @@ function App() {
                 ))}
                 {coachLoading && (
                   <div style={{ padding: "10px", fontStyle: "italic", color: "#a0aec0" }}>
-                    Yazıyor...
+                    {t.writing}
                   </div>
                 )}
                 <div ref={messagesEndRef} />
@@ -1236,7 +1270,7 @@ function App() {
                 <input
                   value={coachInput}
                   onChange={(e) => setCoachInput(e.target.value)}
-                  placeholder="Mesaj yaz..."
+                  placeholder={t.typeMessage}
                   style={{ flex: 1 }}
                   onKeyDown={(e) => e.key === "Enter" && sendCoachReply()}
                   disabled={coachLoading}
@@ -1262,11 +1296,11 @@ function App() {
             <>
               {currentLevel > 5 ? (
                 <div className="congratulations-container">
-                  <h1 className="congratulations-title">TEBRİKLER! 🎓</h1>
-                  <h3>"{formData.interests}" hedefine ulaştın.</h3>
+                  <h1 className="congratulations-title">{t.congratulations}</h1>
+                  <h3>"{formData.interests}" {t.goalAchieved}</h3>
                   <div className="congratulations-box">
                     <p className="congratulations-text">
-                      🎉 Tüm aşamaları tamamladın!
+                      {t.allCompleted}
                     </p>
                   </div>
                   <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
@@ -1275,20 +1309,20 @@ function App() {
                       className="primary-btn reset-btn"
                       style={{ width: "auto" }}
                     >
-                      🔄 Yeni Hedef Belirle
+                      {t.setNewGoal}
                     </button>
                   </div>
                 </div>
               ) : (
                 <>
                   <h2>
-                    {isExamMode ? "🎓 Sınav Hazırlık" : "🚀 Kariyer Yolu"} - Seviye {currentLevel}
+                    {isExamMode ? t.examPrep : t.careerPath} - {t.level} {currentLevel}
                   </h2>
                   <div
                     className="progress-container"
                   >
                     <div className="progress-header">
-                      <span>İlerleme</span>
+                      <span>{t.progress}</span>
                       <span>%{progress}</span>
                     </div>
                     <div className="progress-bar-bg">
@@ -1308,7 +1342,7 @@ function App() {
                         style={{ width: "auto" }}
                         disabled={roadmapLoading}
                       >
-                        ✨ Plan Oluştur
+                        {roadmapLoading ? t.generating : t.generatePlan}
                       </button>
                     ) : (
                       progress === 100 && (
@@ -1317,7 +1351,7 @@ function App() {
                           className="primary-btn"
                           style={{ width: "auto", background: "orange" }}
                         >
-                          🏆 Seviye Atla
+                          {t.levelUp}
                         </button>
                       )
                     )}
@@ -1332,7 +1366,7 @@ function App() {
                           cursor: "pointer",
                         }}
                       >
-                        Sıfırla
+                        {language === 'en' ? 'Reset' : 'Sıfırla'}
                       </button>
                     )}
                   </div>
@@ -1347,8 +1381,8 @@ function App() {
                           borderRadius: "15px",
                         }}
                       >
-                        <p>📭 Bu seviye için henüz görev atanmadı.</p>
-                        <p>Yukarıdaki butona basarak yapay zekadan plan iste.</p>
+                        <p>{language === 'en' ? '📭 No tasks assigned for this level yet.' : '📭 Bu seviye için henüz görev atanmadı.'}</p>
+                        <p>{language === 'en' ? 'Click the button above to request a plan from AI.' : 'Yukarıdaki butona basarak yapay zekadan plan iste.'}</p>
                       </div>
                     )}
                     {roadmap.map((item) => (
@@ -1371,18 +1405,18 @@ function App() {
 
           {activeTab === "notes" && (
   <>
-    <h2>📝 Not Defteri</h2>
+    <h2>{t.notesTitle2}</h2>
 
     {/* Yeni not oluşturma kutusu */}
     <div className="create-note-box">
       <input
-        placeholder="📌 Başlık"
+        placeholder={`📌 ${t.noteTitle}`}
         value={newNote.title}
         onChange={(e) => setNewNote({ ...newNote, title: e.target.value })}
         style={{ marginBottom: "10px" }}
       />
       <textarea
-        placeholder="✍️ Detayları buraya yaz..."
+        placeholder={`✍️ ${t.noteContent}`}
         style={{ minHeight: "80px" }}
         value={newNote.content}
         onChange={(e) => setNewNote({ ...newNote, content: e.target.value })}
@@ -1392,7 +1426,7 @@ function App() {
         className="primary-btn"
         style={{ marginTop: "10px", width: "140px" }}
       >
-        + Ekle
+        {t.addNote}
       </button>
     </div>
 
@@ -1401,7 +1435,7 @@ function App() {
       className="open-notes-modal-btn"
       onClick={() => setShowNotesModal(true)}
     >
-      Notları Görüntüle ({notes.length} adet)
+      {language === 'en' ? `View Notes (${notes.length} notes)` : `Notları Görüntüle (${notes.length} adet)`}
     </button>
 
     {/* MODAL - Not Listesi */}
@@ -1409,7 +1443,7 @@ function App() {
       <div className="modal-overlay" onClick={() => setShowNotesModal(false)}>
         <div className="modal-content notes-modal" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
-            <h3>Tüm Notlarım</h3>
+            <h3>{language === 'en' ? 'All My Notes' : 'Tüm Notlarım'}</h3>
             <button className="close-modal-btn" onClick={() => setShowNotesModal(false)}>
               ×
             </button>
@@ -1419,7 +1453,7 @@ function App() {
           <div className="modal-search">
             <input
               type="text"
-              placeholder="Not ara (başlık veya içerik)..."
+              placeholder={t.searchNotes}
               value={notesSearchQuery}
               onChange={(e) => setNotesSearchQuery(e.target.value)}
               className="notes-search-input"
@@ -1429,7 +1463,7 @@ function App() {
           {/* Scroll'lu not listesi */}
           <div className="notes-modal-list">
             {filteredNotes.length === 0 ? (
-              <p className="no-notes">Aramanıza uygun not bulunamadı 😔</p>
+              <p className="no-notes">{language === 'en' ? 'No notes found 😔' : 'Aramanıza uygun not bulunamadı 😔'}</p>
             ) : (
               filteredNotes.map((note) => (
                 <div
@@ -1574,13 +1608,13 @@ function App() {
                     }}
                   >
                   <h3 style={{ margin: "0 0 15px 0", color: "#2d3748", fontSize: "1.1rem" }}>
-                    Arka Plan Seç
+                    {t.background}
                   </h3>
                   
                   <div style={{ display: "grid", gap: "10px" }}>
                     {/* Gradient Seçenekleri */}
                     <h4 style={{ margin: "10px 0 8px 0", color: "#4a5568", fontSize: "0.9rem", fontWeight: "600" }}>
-                      🎨 Renkler
+                      {t.gradient}
                     </h4>
                     {gradientOptions.map((grad) => (
                       <button
@@ -1629,7 +1663,7 @@ function App() {
                         transition: "all 0.2s"
                       }}
                     >
-                      <span>🖼️ Görseller</span>
+                      <span>{t.image}</span>
                       <span>{showImageSubmenu ? "▼" : "▶"}</span>
                     </button>
                     
@@ -1669,7 +1703,7 @@ function App() {
 
                     {/* Özel Renk Seçici */}
                     <h4 style={{ margin: "15px 0 8px 0", color: "#4a5568", fontSize: "0.9rem", fontWeight: "600" }}>
-                      🌈 Özel Renk
+                      {t.customColor}
                     </h4>
                     <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                       <input
@@ -1713,14 +1747,14 @@ function App() {
               )}
 
               <h2 style={{ color: isBreak ? "#48bb78" : "white", textShadow: "2px 2px 4px rgba(0,0,0,0.3)" }}>
-                {isBreak ? "☕ MOLA VAKTİ" : "⚡ DERS VAKTİ"}
+                {isBreak ? (language === 'en' ? '☕ BREAK TIME' : '☕ MOLA VAKTİ') : (language === 'en' ? '⚡ STUDY TIME' : '⚡ DERS VAKTİ')}
               </h2>
               <div className="timer-display" style={{ color: "white", textShadow: "3px 3px 6px rgba(0,0,0,0.4)" }}>
                 {formatTime(timeLeft)}
               </div>
               <div className="timer-inputs">
                 <div className="timer-input-group">
-                  <label>Ders Süresi (dk)</label>
+                  <label>{t.focusTime} ({t.minutes})</label>
                   <input
                     type="number"
                     value={focusTime}
@@ -1728,7 +1762,7 @@ function App() {
                   />
                 </div>
                 <div className="timer-input-group">
-                  <label>Mola Süresi (dk)</label>
+                  <label>{t.breakTime} ({t.minutes})</label>
                   <input
                     type="number"
                     value={breakTime}
@@ -1741,10 +1775,10 @@ function App() {
                   className={`timer-btn ${timerActive ? "btn-stop" : "btn-start"}`}
                   onClick={handleTimerStart}
                 >
-                  {timerActive ? "Durdur" : "Başlat"}
+                  {timerActive ? t.pauseTimer : t.startTimer}
                 </button>
                 <button className="timer-btn btn-reset" onClick={handleTimerReset}>
-                  Sıfırla
+                  {t.resetTimer}
                 </button>
               </div>
             </div>
@@ -1755,11 +1789,11 @@ function App() {
       {/* MOBİL BOTTOM NAV */}
       <nav className="bottom-nav">
         {[
-          { id: "profile", icon: "👤", label: "Profil" },
-          { id: "advice", icon: "🤖", label: "Koç" },
-          { id: "roadmap", icon: "🗺️", label: "Yol" },
-          { id: "notes", icon: "📝", label: "Notlar" },
-          { id: "focus", icon: "⏱️", label: "Focus" },
+          { id: "profile", icon: "👤", label: language === 'en' ? 'Profile' : 'Profil' },
+          { id: "advice", icon: "🤖", label: language === 'en' ? 'Coach' : 'Koç' },
+          { id: "roadmap", icon: "🗺️", label: language === 'en' ? 'Roadmap' : 'Yol' },
+          { id: "notes", icon: "📝", label: language === 'en' ? 'Notes' : 'Notlar' },
+          { id: "focus", icon: "⏱️", label: 'Focus' },
         ].map((item) => (
           <div
             key={item.id}
@@ -1780,7 +1814,11 @@ export default function AppWithGoogleAuth() {
   // Eğer Google Client ID varsa OAuth Provider ile wrap et
   if (GOOGLE_ENABLED) {
     return (
-      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <GoogleOAuthProvider 
+        clientId={GOOGLE_CLIENT_ID}
+        onScriptLoadError={() => console.error('Google OAuth script yüklenemedi')}
+        onScriptLoadSuccess={() => console.log('Google OAuth script yüklendi')}
+      >
         <App />
       </GoogleOAuthProvider>
     );
