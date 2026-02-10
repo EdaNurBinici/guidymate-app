@@ -7,6 +7,36 @@ A modern, full-stack web application that helps users plan their career path wit
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15.x-blue.svg)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+## Live Demo
+
+> **Note:** The application is currently in development. Live demo will be available soon.
+
+<!-- Uncomment when deployed:
+**[View Live Demo](https://your-app-url.com)** | **[API Documentation](https://your-api-url.com/docs)**
+-->
+
+## Screenshots
+
+### Landing Page
+![Landing Page](./screenshots/landing.png)
+*Clean and modern landing page with theme selection*
+
+### AI Career Coach
+![AI Coach](./screenshots/ai-coach.png)
+*Interactive AI chat interface with personalized career advice*
+
+### Personalized Roadmap
+![Roadmap](./screenshots/roadmap.png)
+*Level-based learning roadmap with progress tracking*
+
+### Focus Timer
+![Focus Timer](./screenshots/focus-timer.png)
+*Pomodoro timer with customizable backgrounds*
+
+### Profile Management
+![Profile](./screenshots/profile.png)
+*Comprehensive user profile with career goals*
+
 ## Features
 
 ### AI Career Coach
