@@ -804,23 +804,25 @@ function App() {
           
           {/* Google ile Giriş - Sadece Client ID varsa göster */}
           {GOOGLE_ENABLED && (
-            <div style={{ margin: "20px 0", textAlign: "center" }}>
-              <p style={{ color: "#718096", marginBottom: "10px" }}>{t.orText}</p>
-              <GoogleLogin
-                onSuccess={handleGoogleLogin}
-                onError={(error) => {
-                  console.error('Google Login Error:', error);
-                  setMessage("❌ Google ile giriş başarısız. Lütfen tekrar dene.");
-                }}
-                text={view === "login" ? "signin_with" : "signup_with"}
-                shape="rectangular"
-                theme="outline"
-                size="large"
-                width="100%"
-                ux_mode="popup"
+            <div className="google-login-container">
+              <div style={{ width: "100%", maxWidth: "400px" }}>
+                <p style={{ color: "#718096", marginBottom: "15px", textAlign: "center" }}>{t.orText}</p>
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  onError={(error) => {
+                    console.error('Google Login Error:', error);
+                    setMessage("❌ Google ile giriş başarısız. Lütfen tekrar dene.");
+                  }}
+                  text={view === "login" ? "signin_with" : "signup_with"}
+                  shape="rectangular"
+                  theme="outline"
+                  size="large"
+                  width="100%"
+                  ux_mode="popup"
                 useOneTap={false}
                 auto_select={false}
               />
+              </div>
             </div>
           )}
           

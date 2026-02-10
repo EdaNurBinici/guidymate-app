@@ -2926,7 +2926,8 @@ body.autumn-mode .primary-btn.logout-btn:hover {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 15px 0;
+  margin: 20px auto;
+  padding: 10px 0;
 }
 
 /* Dark mode için Google button */
