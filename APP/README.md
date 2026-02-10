@@ -21,27 +21,7 @@ AI-powered career planning assistant with personalized roadmaps, goal tracking, 
 ### Dashboard
 <img src="./screenshots/profile.png" width="400" alt="Profile"> <img src="./screenshots/roadmap.png" width="400" alt="Roadmap">
 
-### Features
-
-<details>
-<summary>Theme & Language Support</summary>
-<img src="./screenshots/features.gif" width="700" alt="Features">
-</details>
-
-<details>
-<summary>AI Career Coach</summary>
-<img src="./screenshots/ai_coach.gif" width="700" alt="AI Coach">
-</details>
-
-<details>
-<summary>Smart Notes</summary>
-<img src="./screenshots/notes.gif" width="700" alt="Notes">
-</details>
-
-<details>
-<summary>Focus Timer</summary>
-<img src="./screenshots/focus_time.gif" width="700" alt="Timer">
-</details>
+### [🌐 Live Demo - Try it yourself!](https://guidymate.onrender.com)
 
 </div>
 
