@@ -204,8 +204,15 @@ function App() {
   const formatTime = (seconds) => {
     // Negatif değerleri engelle
     const totalSeconds = Math.max(0, seconds);
-    const m = Math.floor(totalSeconds / 60);
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
     const s = totalSeconds % 60;
+    
+    // Eğer 1 saat veya daha fazlaysa: "2:05:30" formatı
+    if (h > 0) {
+      return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+    // 1 saatten azsa: "25:30" formatı
     return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
@@ -1760,17 +1767,23 @@ function App() {
                 <div className="timer-input-group">
                   <label>{t.focusTime} ({t.minutes})</label>
                   <input
+                    className="timer-input"
                     type="number"
+                    min="1"
                     value={focusTime}
-                    onChange={(e) => updateFocusTime(Number(e.target.value))}
+                    onChange={(e) => updateFocusTime(Number(e.target.value) || 1)}
+                    placeholder="25"
                   />
                 </div>
                 <div className="timer-input-group">
                   <label>{t.breakTime} ({t.minutes})</label>
                   <input
+                    className="timer-input"
                     type="number"
+                    min="1"
                     value={breakTime}
-                    onChange={(e) => updateBreakTime(Number(e.target.value))}
+                    onChange={(e) => updateBreakTime(Number(e.target.value) || 1)}
+                    placeholder="5"
                   />
                 </div>
               </div>
