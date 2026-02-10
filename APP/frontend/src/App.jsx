@@ -1769,9 +1769,8 @@ function App() {
                   <input
                     className="timer-input"
                     type="number"
-                    min="1"
-                    value={focusTime}
-                    onChange={(e) => updateFocusTime(Number(e.target.value) || 1)}
+                    value={focusTime || ''}
+                    onChange={(e) => updateFocusTime(Number(e.target.value) || 0)}
                     placeholder="25"
                   />
                 </div>
@@ -1780,9 +1779,8 @@ function App() {
                   <input
                     className="timer-input"
                     type="number"
-                    min="1"
-                    value={breakTime}
-                    onChange={(e) => updateBreakTime(Number(e.target.value) || 1)}
+                    value={breakTime || ''}
+                    onChange={(e) => updateBreakTime(Number(e.target.value) || 0)}
                     placeholder="5"
                   />
                 </div>
