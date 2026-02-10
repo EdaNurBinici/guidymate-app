@@ -116,7 +116,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 **Eda Nur Binici**
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/eda-nur-binici/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/eda-nur-binici)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/EdaNurBinici)
 
 ---
