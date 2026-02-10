@@ -13,39 +13,20 @@
 
 ## 📱 Preview
 
-### Landing & Authentication
-![Landing Page](./screenshots/landing.jpg)
-![Login Page](./screenshots/login.png)
+<div align="center">
 
-### Core Features
-![Profile Dashboard](./screenshots/profile.png)
-![Roadmap System](./screenshots/roadmap.png)
-![Focus Timer](./screenshots/focus_mode.jpg)
+### 🏠 Landing & Login
+<img src="./screenshots/landing.jpg" width="400" alt="Landing Page"> <img src="./screenshots/login.png" width="400" alt="Login">
 
-### Feature Demos
-<details>
-<summary>🎨 Theme & Language Support</summary>
+### 📊 Dashboard & Features
+<img src="./screenshots/profile.png" width="400" alt="Profile"> <img src="./screenshots/roadmap.png" width="400" alt="Roadmap">
 
-![Features Demo](./screenshots/features.mp4)
-</details>
+### ⏱️ Focus Timer
+<img src="./screenshots/focus_mode.jpg" width="600" alt="Focus Timer">
 
-<details>
-<summary>🤖 AI Career Coach</summary>
+</div>
 
-![AI Coach Demo](./screenshots/ai_coach.mp4)
-</details>
-
-<details>
-<summary>📝 Smart Notes</summary>
-
-![Notes Demo](./screenshots/notes.mp4)
-</details>
-
-<details>
-<summary>⏱️ Focus Timer</summary>
-
-![Timer Demo](./screenshots/focus_time.mp4)
-</details>
+> 💡 **Video Demos:** AI Coach, Notes, and Timer demos are available in the [screenshots](./screenshots) folder.
 
 ---
 
