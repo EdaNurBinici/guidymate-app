@@ -5,9 +5,9 @@
 ![Node](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)
 
-AI-powered career planning assistant with personalized roadmaps, goal tracking, and productivity tools.
+AI-powered career planning assistant built as a personal full-stack project.
 
-> Full-Stack web application for managing career journey through gamified experience.
+> A web application that helps users manage their career journey with personalized roadmaps and productivity tools.
 
 ---
 
@@ -29,13 +29,12 @@ AI-powered career planning assistant with personalized roadmaps, goal tracking, 
 
 ## Key Features
 
-- AI Career Coach - 24/7 personalized guidance
-- Smart Roadmap - Level-based progression (1-10)
-- Focus Timer - Customizable Pomodoro
-- Multi-Theme - Light, Dark, Autumn modes
-- Secure Auth - Google OAuth 2.0
-- Multi-Language - Turkish and English
-- Smart Notes - Organize learning journey
+- AI Career Coach - Personalized guidance using Groq API
+- Smart Roadmap - Level-based progression system
+- Focus Timer - Pomodoro technique with custom themes
+- Notes System - Organize your learning
+- Multi-Language - Turkish and English support
+- Google OAuth - Secure authentication
 
 ---
 
@@ -88,23 +87,20 @@ For detailed setup instructions, see [SETUP.md](./docs/SETUP.md)
 
 ## Architecture
 
-**MVC-inspired modular structure:**
+Built with MVC-inspired structure:
 
-- **Frontend:** Component-based architecture with dedicated modules for Roadmap, Notes, and AI Coach
-- **Backend:** RESTful API with separated service layer, controllers, and routes
-- **Database:** Relational design (Users, Profiles, Roadmaps tables)
+- **Frontend:** React components with dedicated modules for each feature
+- **Backend:** RESTful API with Express.js
+- **Database:** PostgreSQL with relational design
+- **AI Integration:** Groq SDK for career guidance
 
 ---
 
 ## Documentation
 
-- [Quick Start Guide](./docs/QUICK-START.md)
+- [Setup Guide](./docs/SETUP.md)
 - [Deployment Guide](./docs/DEPLOYMENT.md)
-- [Features Overview](./docs/FEATURES.md)
-- [Troubleshooting](./docs/TROUBLESHOOTING.md)
-- [Language Support](./docs/LANGUAGE-SUPPORT-GUIDE.md)
-- [Translation Guide](./docs/TRANSLATION-COMPLETE-GUIDE.md)
-- [Contributing Guidelines](./CONTRIBUTING.md)
+- [Contributing](./CONTRIBUTING.md)
 
 ---
 
@@ -123,4 +119,4 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ---
 
-If you like this project, please give it a star!
+If you find this project helpful, feel free to give it a star!
