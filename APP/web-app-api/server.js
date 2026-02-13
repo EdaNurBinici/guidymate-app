@@ -53,6 +53,25 @@ app.get("/", (req, res) => {
   }); 
 });
 
+// Test endpoint for Groq API
+app.get("/test-groq", async (req, res) => {
+  try {
+    console.log("🧪 Testing Groq API...");
+    const chat = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [{ role: "user", content: "Say 'Hello' in one word" }],
+      temperature: 0.1
+    });
+    const response = chat.choices[0]?.message?.content;
+    console.log("✅ Groq API works! Response:", response);
+    res.json({ success: true, groqResponse: response });
+  } catch (err) {
+    console.error("❌ Groq API Error:", err.message);
+    console.error("Full error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // --- 1. AUTH ---
 app.post("/register", async (req, res) => {
   try {
@@ -252,39 +271,57 @@ RULES:
 app.post("/coach/start", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
-    const { language = 'tr' } = req.body; // Dil parametresi
-    console.log("🌍 Coach Start - Language:", language); // DEBUG
+    const { language = 'tr' } = req.body;
+    console.log("🌍 Coach Start - Language:", language, "UserId:", userId);
+    
     const profRes = await pool.query("SELECT * FROM users_profiles WHERE user_id = $1", [userId]);
     const p = profRes.rows[0] || {};
+    console.log("📋 Profile data:", p);
+    
     const sessionTitle = language === 'en' ? 'New Chat' : 'Yeni Sohbet';
     const s = await pool.query("INSERT INTO coach_sessions (user_id, state, title) VALUES ($1, 'active', $2) RETURNING id", [userId, sessionTitle]);
     const sessionId = s.rows[0].id;
+    console.log("✅ Session created:", sessionId);
     
     const SYSTEM_PROMPT = SYSTEM_PROMPTS[language] || SYSTEM_PROMPTS.tr;
-    console.log("📝 Using SYSTEM_PROMPT for language:", language); // DEBUG
     const greetingPrompt = language === 'en' 
-      ? `User's GOAL: ${p.interests}. RESPOND IN ENGLISH ONLY! Say hello in English and give a direct tip in English.`
-      : `Kullanıcının HEDEFİ: ${p.interests}. SADECE TÜRKÇE CEVAP VER! Merhaba de ve doğrudan bir ipucu ver Türkçe olarak.`;
+      ? `User's GOAL: ${p.interests || 'Not set'}. RESPOND IN ENGLISH ONLY! Say hello in English and give a direct tip in English.`
+      : `Kullanıcının HEDEFİ: ${p.interests || 'Belirlenmemiş'}. SADECE TÜRKÇE CEVAP VER! Merhaba de ve doğrudan bir ipucu ver Türkçe olarak.`;
     
     const messages = [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: greetingPrompt }
     ];
 
-    const chat = await groq.chat.completions.create({ model: "llama-3.3-70b-versatile", messages: messages, temperature: 0.1 });
-    const msg = chat.choices[0]?.message?.content;
-    console.log("🤖 AI Response:", msg.substring(0, 100)); // DEBUG
+    console.log("🤖 Calling Groq API...");
+    const chat = await groq.chat.completions.create({ 
+      model: "llama-3.3-70b-versatile", 
+      messages: messages, 
+      temperature: 0.1 
+    });
+    
+    const msg = chat.choices[0]?.message?.content || (language === 'en' ? 'Hello! How can I help you?' : 'Merhaba! Nasıl yardımcı olabilirim?');
+    console.log("✅ AI Response received:", msg.substring(0, 100));
+    
     await saveMsg(pool, { userId, sessionId, role: "assistant", content: msg });
+    console.log("✅ Message saved to DB");
+    
     res.json({ sessionId, message: msg });
   } catch (err) { 
-    console.error("Coach Start Error:", err.message);
+    console.error("❌ Coach Start Error - Full details:", err);
+    console.error("Error stack:", err.stack);
+    
     if (err.message?.includes('rate_limit')) {
-      return res.status(429).json({ message: "Groq API rate limit aşıldı. Lütfen birkaç dakika bekleyin." });
+      return res.status(429).json({ message: language === 'en' ? "Rate limit exceeded. Please wait a few minutes." : "Groq API rate limit aşıldı. Lütfen birkaç dakika bekleyin." });
     }
     if (err.message?.includes('quota')) {
-      return res.status(429).json({ message: "Groq API kotası doldu. Lütfen daha sonra tekrar deneyin." });
+      return res.status(429).json({ message: language === 'en' ? "API quota exceeded. Please try again later." : "Groq API kotası doldu. Lütfen daha sonra tekrar deneyin." });
     }
-    res.status(500).json({ message: "Sohbet başlatılamadı. Lütfen tekrar deneyin." }); 
+    
+    res.status(500).json({ 
+      message: language === 'en' ? "Failed to start chat. Please try again." : "Sohbet başlatılamadı. Lütfen tekrar deneyin.",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    }); 
   }
 });
 
