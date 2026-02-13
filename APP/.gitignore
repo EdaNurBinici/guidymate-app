@@ -57,7 +57,6 @@ uploads/
 DERS/
 c++/
 c++1/
-APP/
 *.zip
 *.rar
 *.py
@@ -66,6 +65,5 @@ APP/
 *.bat
 *.cmd
 *.php
-*.html
 cgi-bin/
 goodbyedpi*/
