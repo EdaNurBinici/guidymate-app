@@ -66,6 +66,6 @@ APP/
 *.bat
 *.cmd
 *.php
-*.html
 cgi-bin/
 goodbyedpi*/
+!frontend/index.html
